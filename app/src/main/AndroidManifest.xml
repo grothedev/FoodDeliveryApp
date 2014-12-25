@@ -3,18 +3,18 @@
     package="org.grothedev.fooddelivery" >
 
     <application
-
-
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+        <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
         <activity
-            android:name="org.grothedev.fooddelivery.WelcomeActivity"
+            android:name=".WelcomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.grothedev.fooddelivery.ViewRestaurantsActivity"
+            android:name=".ViewRestaurantsActivity"
             android:label="@string/title_activity_view_restaurants" >
         </activity>
-        <meta-data android:name="com.google.android.gms.version"
+
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".InitialSetupActivity"
+            android:label="@string/title_activity_initial_setup"
+            android:parentActivityName=".WelcomeActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.grothedev.fooddelivery.WelcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -36,15 +36,19 @@ public class WelcomeActivity extends ActionBarActivity
     // Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
 
-    private final int REQUEST_CODE_PICK_ACCOUNT = 1000; //code for picking account activity
-    String userEmail;
-    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
-
+    private String userName;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+
+
+        if (firstRun()){
+            startActivity(new Intent(this, InitialSetupActivity.class));
+        }
 
         updateUserData();
 
@@ -57,14 +61,26 @@ public class WelcomeActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        pickUserAccount();
 
-        Toast.makeText(this, userEmail, Toast.LENGTH_SHORT).show();
+        /*verification:
+            when app starts, logs in to email to make sure it is the user's
+            then looks at the user in the database with the id saved in preferences and checks to make sure there is the same email
+
+
+        */
+
+    }
+
+    private boolean firstRun(){
+        SharedPreferences userData = getSharedPreferences("userdata", 0);
+        return userData.getBoolean("firstRun", true);
     }
 
     private void updateUserData(){
         SharedPreferences userData = getSharedPreferences("userdata", 0);
         Settings.isDeliverer = userData.getBoolean("isDeliverer", false);
+        userEmail = userData.getString("email", null);
+        userName = userData.getString("name", null);
     }
 
 
@@ -175,32 +191,7 @@ public class WelcomeActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void pickUserAccount() {
-        String[] accountTypes = new String[]{"com.google"};
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null,
-                accountTypes, false, null, null, null, null);
-        startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_ACCOUNT){
-            if (resultCode == RESULT_OK){
-                userEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                getUsername();
-            }
-        }
-    }
-
-    private void getUsername(){
-        if (userEmail == null){
-            pickUserAccount();
-        } else {
-
-            new GetUsernameTask(this, userEmail, SCOPE).execute();
-
-        }
-    }
 
     /**
      * A placeholder fragment containing a simple view.

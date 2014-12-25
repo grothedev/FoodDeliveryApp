@@ -2,6 +2,7 @@ package org.grothedev.fooddelivery;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -17,7 +18,7 @@ public class GetUsernameTask extends AsyncTask {
     String scope;
     String email;
 
-    GetUsernameTask(Activity activity, String name, String scope){
+    GetUsernameTask(Activity activity, String email, String scope){
         this.activity = activity;
         this.scope = scope;
         this.email = email;
@@ -29,7 +30,7 @@ public class GetUsernameTask extends AsyncTask {
         try {
             token = fetchToken();
             if (token != null){
-                //use token to access user's google data
+                Toast.makeText(activity, "Successfully got token", Toast.LENGTH_SHORT);
             }
         } catch (IOException e) {
             e.printStackTrace();
