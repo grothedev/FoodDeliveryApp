@@ -36,8 +36,8 @@ public class WelcomeActivity extends ActionBarActivity
     // Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
 
-    private String userName;
-    private String userEmail;
+    private DatabaseHandler dbHandler;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,12 @@ public class WelcomeActivity extends ActionBarActivity
             startActivity(new Intent(this, InitialSetupActivity.class));
         }
 
-        updateUserData();
+
+        user = new User(this);
+
+        dbHandler = new DatabaseHandler();
+
+        authenticate();
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -62,13 +67,24 @@ public class WelcomeActivity extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
-        /*verification:
-            when app starts, logs in to email to make sure it is the user's
-            then looks at the user in the database with the id saved in preferences and checks to make sure there is the same email
 
+    }
 
-        */
-
+    private void authenticate(){
+        if (dbHandler.userIdExists(user.userId)){
+            if (user.userEmail.equals(dbHandler.getUserEmail(user.userId))){
+                //authenticate email using google api
+            } else {
+                //start dialog asking to select email or make new account
+            }
+        } else {
+            if (dbHandler.userEmailExists(user.userEmail)){
+                //authenticate email using google api
+                //if successful google account authentication, fix id in prefs
+            } else {
+                //start dialog asking to select email or make new account
+            }
+        }
     }
 
     private boolean firstRun(){
@@ -76,17 +92,12 @@ public class WelcomeActivity extends ActionBarActivity
         return userData.getBoolean("firstRun", true);
     }
 
-    private void updateUserData(){
-        SharedPreferences userData = getSharedPreferences("userdata", 0);
-        Settings.isDeliverer = userData.getBoolean("isDeliverer", false);
-        userEmail = userData.getString("email", null);
-        userName = userData.getString("name", null);
-    }
+
 
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        updateUserData();
+        user.updateUserData();
 
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -191,7 +202,11 @@ public class WelcomeActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        authenticate(); //authenticate each time resumed to prevent exploits from users modifying prefs file
+    }
 
     /**
      * A placeholder fragment containing a simple view.
