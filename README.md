@@ -19,12 +19,19 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
   
 <h3>PHP Calls</h3>
   (running on home server for now)
+  
   http://96.42.75.21/android/food/db/
+  
   add_user.php POST name,email  (increments id)
+  
   add_deliverer.php POST id (makes user with id a deliverer)
+  
   get_user_email.php GET id (returns email of user id)
   
   These return JSON objects with "success" as 1 or 0 and whatever values requested. 
     
   
+<a href = "http://grothetr.no-ip.org/android/food/builds/"><h3>APKs</h3></a>
+  
+
   
