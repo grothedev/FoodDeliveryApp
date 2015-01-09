@@ -102,9 +102,9 @@ public class NavigationDrawerFragment extends Fragment {
         String[] navDrawerOptions;
 
         SharedPreferences userData = getActivity().getSharedPreferences("userdata", 0);
-        Settings.isDeliverer = userData.getBoolean("isDeliverer", false);
+        User.isDeliverer = userData.getBoolean("isDeliverer", false);
 
-        if (Settings.isDeliverer){
+        if (User.isDeliverer){
             navDrawerOptions = new String[]{getString(R.string.title_welcome), getString(R.string.title_order), getString(R.string.title_del_cp),
                     getString(R.string.title_del_requests), getString(R.string.title_del_active)};
         } else {

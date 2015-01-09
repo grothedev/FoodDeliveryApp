@@ -8,18 +8,15 @@ import android.content.SharedPreferences;
  * Created by thomas on 04/01/15.
  */
 public class User {
-    String userEmail;
-    String userName;
-    Context context;
-    int userId;
+    static String userEmail;
+    static String userName;
+    static int userId;
+    static boolean isDeliverer;
 
-    public User(Context context){
-        this.context = context;
-    }
 
-    public void updateUserData(){
+    public static void updateUserData(Context context){
         SharedPreferences userData = context.getSharedPreferences("userdata", 0);
-        Settings.isDeliverer = userData.getBoolean("isDeliverer", false);
+        isDeliverer = userData.getBoolean("isDeliverer", false);
         userEmail = userData.getString("email", null);
         userName = userData.getString("name", null);
         userId = userData.getInt("id", -1);

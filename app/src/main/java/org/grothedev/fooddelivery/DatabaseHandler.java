@@ -12,6 +12,7 @@ public class DatabaseHandler {
     }
 
     public String getUserEmail(int id){
+
         return "email@email.com";
     }
 

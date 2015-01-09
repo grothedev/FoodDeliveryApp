@@ -36,26 +36,24 @@ public class WelcomeActivity extends ActionBarActivity
     // Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
 
-    private DatabaseHandler dbHandler;
-    User user;
+    private DatabaseHandler dbHandler = new DatabaseHandler();;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-
-
         if (firstRun()){
             startActivity(new Intent(this, InitialSetupActivity.class));
+        } else {
+            authenticate();
         }
 
 
-        user = new User(this);
 
-        dbHandler = new DatabaseHandler();
 
-        authenticate();
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -71,14 +69,14 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     private void authenticate(){
-        if (dbHandler.userIdExists(user.userId)){
-            if (user.userEmail.equals(dbHandler.getUserEmail(user.userId))){
+        if (dbHandler.userIdExists(User.userId)){
+            if (User.userEmail.equals(dbHandler.getUserEmail(User.userId))){
                 //authenticate email using google api
             } else {
                 //start dialog asking to select email or make new account
             }
         } else {
-            if (dbHandler.userEmailExists(user.userEmail)){
+            if (dbHandler.userEmailExists(User.userEmail)){
                 //authenticate email using google api
                 //if successful google account authentication, fix id in prefs
             } else {
@@ -97,12 +95,17 @@ public class WelcomeActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        user.updateUserData();
+
+        User.updateUserData(this);
+
+
+
+
 
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (Settings.isDeliverer){
+        if (User.isDeliverer){
             switch (position){
                 default:
                     fragmentManager.beginTransaction()
@@ -131,7 +134,7 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     public void onSectionAttached(int number) {
-        if (Settings.isDeliverer){
+        if (User.isDeliverer){
             switch (number) {
                 case 1:
                     mTitle = getString(R.string.title_welcome);
@@ -205,7 +208,12 @@ public class WelcomeActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
-        authenticate(); //authenticate each time resumed to prevent exploits from users modifying prefs file
+        if (!firstRun()) {
+            User.updateUserData(this);
+            authenticate(); //authenticate each time resumed to prevent exploits from users modifying prefs file
+        }
+
+
     }
 
     /**

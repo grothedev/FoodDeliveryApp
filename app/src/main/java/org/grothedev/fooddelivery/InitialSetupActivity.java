@@ -3,15 +3,26 @@ package org.grothedev.fooddelivery;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class InitialSetupActivity extends ActionBarActivity {
@@ -21,6 +32,7 @@ public class InitialSetupActivity extends ActionBarActivity {
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     Button chooseEmail;
     Button complete;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +51,39 @@ public class InitialSetupActivity extends ActionBarActivity {
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //make sure google account is able to be logged in to
 
-                //add to db
+                //the user owns the google account
+                if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
 
-                //update local userdata
-                EditText name = (EditText)findViewById(R.id.editText_name);
-                SharedPreferences userData = getSharedPreferences("userdata", 0);
-                SharedPreferences.Editor edit = userData.edit();
-                edit.putString("name", name.getText().toString());
-                edit.putString("email", userEmail);
-                edit.putBoolean("firstRun", false);
-                edit.commit();
+
+                    //TODO: sanitize input
+                    //update local userdata
+                    EditText name = (EditText)findViewById(R.id.editText_name);
+                    SharedPreferences userData = getSharedPreferences("userdata", 0);
+                    SharedPreferences.Editor edit = userData.edit();
+
+                    if (name.getText().toString() != null){
+                        userName = name.getText().toString();
+                    } else {
+                        //TODO: get from g+ profile
+                        userName = "from g+ profile";
+                    }
+
+
+                    edit.putString("name", userName);
+                    edit.putString("email", userEmail);
+                    edit.putBoolean("firstRun", false);
+                    edit.commit();
+
+                    new AddUser().execute(userEmail, userName);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "don't have auth token", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
 
 
                 finish();
@@ -94,6 +127,7 @@ public class InitialSetupActivity extends ActionBarActivity {
         if (requestCode == REQUEST_CODE_PICK_ACCOUNT){
             if (resultCode == RESULT_OK){
                 userEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+
                 getUsername();
 
                 chooseEmail.setText("Chosen email: " + userEmail);
@@ -109,6 +143,36 @@ public class InitialSetupActivity extends ActionBarActivity {
 
             new GetUsernameTask(this, userEmail, SCOPE).execute();
 
+
+
         }
     }
+
+    class AddUser extends AsyncTask{
+
+        JSONParser jsonParser = new JSONParser();
+        String url_add_user = "http://96.42.75.21/android/food/db/add_user.php";
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            String email = objects[0].toString();
+            String name = objects[1].toString();
+            //TODO: prevent sql injection
+
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("email", email));
+
+            JSONObject json = jsonParser.makeHttpRequest(url_add_user, "POST", params);
+
+
+            finish();
+
+            return null;
+        }
+
+
+    }
+
 }
