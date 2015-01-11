@@ -55,27 +55,33 @@ public class InitialSetupActivity extends ActionBarActivity {
                 //the user owns the google account
                 if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
 
-
-                    //TODO: sanitize input
-                    //update local userdata
                     EditText name = (EditText)findViewById(R.id.editText_name);
                     SharedPreferences userData = getSharedPreferences("userdata", 0);
                     SharedPreferences.Editor edit = userData.edit();
 
-                    if (name.getText().toString() != null){
-                        userName = name.getText().toString();
-                    } else {
-                        //TODO: get from g+ profile
-                        userName = "from g+ profile";
+
+                    User.userId = DatabaseHandler.userEmailExists(userEmail);
+                    if (User.userId == -1){ //user is not in database yet
+                        if (name.getText().toString() != null){
+                            userName = name.getText().toString();
+                        } else {
+                            //TODO: get from g+ profile
+                            userName = "from g+ profile";
+                        }
+
+                        DatabaseHandler.addUser(userEmail, userName);
                     }
 
+                    while (User.userId == -1){ //i think this is on ui thread so the app might freeze for a bit if poor internet connection
+                        //wait for the user id to be successfully updated
+                    }
 
                     edit.putString("name", userName);
                     edit.putString("email", userEmail);
                     edit.putBoolean("firstRun", false);
+                    edit.putInt("id", User.userId);
                     edit.commit();
 
-                    new AddUser().execute(userEmail, userName);
 
                 } else {
                     Toast.makeText(getApplicationContext(), "don't have auth token", Toast.LENGTH_SHORT).show();
@@ -91,6 +97,7 @@ public class InitialSetupActivity extends ActionBarActivity {
             }
         });
     }
+
 
 
     @Override
@@ -143,8 +150,6 @@ public class InitialSetupActivity extends ActionBarActivity {
 
             new GetUsernameTask(this, userEmail, SCOPE).execute();
 
-
-
         }
     }
 
@@ -157,17 +162,18 @@ public class InitialSetupActivity extends ActionBarActivity {
         protected Object doInBackground(Object[] objects) {
             String email = objects[0].toString();
             String name = objects[1].toString();
-            //TODO: prevent sql injection
+
 
 
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("email", email));
 
+            //TODO: setup token auth thing on server
             JSONObject json = jsonParser.makeHttpRequest(url_add_user, "POST", params);
 
 
-            finish();
+            //finish();
 
             return null;
         }

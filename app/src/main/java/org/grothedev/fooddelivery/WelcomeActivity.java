@@ -36,7 +36,6 @@ public class WelcomeActivity extends ActionBarActivity
     // Used to store the last screen title. For use in {@link #restoreActionBar()}.
     private CharSequence mTitle;
 
-    private DatabaseHandler dbHandler = new DatabaseHandler();;
 
 
     @Override
@@ -46,8 +45,6 @@ public class WelcomeActivity extends ActionBarActivity
 
         if (firstRun()){
             startActivity(new Intent(this, InitialSetupActivity.class));
-        } else {
-            authenticate();
         }
 
 
@@ -68,22 +65,6 @@ public class WelcomeActivity extends ActionBarActivity
 
     }
 
-    private void authenticate(){
-        if (dbHandler.userIdExists(User.userId)){
-            if (User.userEmail.equals(dbHandler.getUserEmail(User.userId))){
-                //authenticate email using google api
-            } else {
-                //start dialog asking to select email or make new account
-            }
-        } else {
-            if (dbHandler.userEmailExists(User.userEmail)){
-                //authenticate email using google api
-                //if successful google account authentication, fix id in prefs
-            } else {
-                //start dialog asking to select email or make new account
-            }
-        }
-    }
 
     private boolean firstRun(){
         SharedPreferences userData = getSharedPreferences("userdata", 0);
@@ -206,11 +187,11 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         if (!firstRun()) {
-            User.updateUserData(this);
-            authenticate(); //authenticate each time resumed to prevent exploits from users modifying prefs file
+            User.updatePrefsFile(this);
+
         }
 
 
