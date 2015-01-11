@@ -14,7 +14,6 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
   Currently the user is added to the database by making an http post request to add_user.php, giving just the name and email. there needs to be a way to verify the request is coming from a valid client. 
   A possible solution: the php script gets an auth token to compare with the one from client. 
   
-  Need to figure out best way to sanitize input
   
   
 <h3>PHP Calls</h3>
@@ -28,7 +27,7 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
   
   get_user_email.php GET id (returns email of user id)
   
-  These return JSON objects with "success" as 1 or 0 and whatever values requested. 
+  num_users.php (returns num users)
     
   
 <h3><a href = "http://grothetr.no-ip.org/android/food/builds/">APKs</a></h3>
