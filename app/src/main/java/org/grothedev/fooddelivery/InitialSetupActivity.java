@@ -1,6 +1,8 @@
 package org.grothedev.fooddelivery;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -52,19 +54,30 @@ public class InitialSetupActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
 
+
                 //the user owns the google account
-                if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
+               if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
 
                     EditText name = (EditText)findViewById(R.id.editText_name);
                     SharedPreferences userData = getSharedPreferences("userdata", 0);
                     SharedPreferences.Editor edit = userData.edit();
 
 
-                    User.userId = DatabaseHandler.userEmailExists(userEmail);
-                    if (User.userId == -1){ //user is not in database yet
-                        if (name.getText().toString() != null){
-                            userName = name.getText().toString();
-                        } else {
+
+                    DatabaseHandler.userEmailExists(userEmail);
+
+                    Log.d("id", Integer.toString(User.userId));
+
+
+
+                    while(User.userId == User.NOT_SET_YET){} //wait for id to be set. this probably shouldn't be done on ui thread
+
+
+
+                    if (User.userId == User.DOESNT_EXIST){ //user is not in database yet
+
+                        userName = name.getText().toString();
+                        if (userName == null){
                             //TODO: get from g+ profile
                             userName = "from g+ profile";
                         }
@@ -72,9 +85,7 @@ public class InitialSetupActivity extends ActionBarActivity {
                         DatabaseHandler.addUser(userEmail, userName);
                     }
 
-                    while (User.userId == -1){ //i think this is on ui thread so the app might freeze for a bit if poor internet connection
-                        //wait for the user id to be successfully updated
-                    }
+                    while (User.userId == User.DOESNT_EXIST){} //wait for the user to be added to database.  this probably shouldn't be done on ui thread
 
                     edit.putString("name", userName);
                     edit.putString("email", userEmail);
@@ -88,11 +99,7 @@ public class InitialSetupActivity extends ActionBarActivity {
                 }
 
 
-
-
-
-
-                finish();
+               finish();
 
             }
         });
@@ -153,32 +160,7 @@ public class InitialSetupActivity extends ActionBarActivity {
         }
     }
 
-    class AddUser extends AsyncTask{
-
-        JSONParser jsonParser = new JSONParser();
-        String url_add_user = "http://96.42.75.21/android/food/db/add_user.php";
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            String email = objects[0].toString();
-            String name = objects[1].toString();
 
 
-
-            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-            params.add(new BasicNameValuePair("name", name));
-            params.add(new BasicNameValuePair("email", email));
-
-            //TODO: setup token auth thing on server
-            JSONObject json = jsonParser.makeHttpRequest(url_add_user, "POST", params);
-
-
-            //finish();
-
-            return null;
-        }
-
-
-    }
 
 }

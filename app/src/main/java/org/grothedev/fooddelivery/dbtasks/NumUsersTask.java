@@ -15,20 +15,21 @@ public class NumUsersTask extends AsyncTask {
 
     JSONParser jsonParser = new JSONParser();
     String url_num_users = "http://96.42.75.21/android/food/db/num_users.php";
+    int users;
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected Integer doInBackground(Object[] objects) {
 
 
-        JSONObject json = jsonParser.makeHttpRequest(url_num_users, "POST", null);
+        JSONObject json = jsonParser.makeHttpRequest(url_num_users, "GET", null);
 
         try {
-            int users = json.getInt("users");
-            Log.d("users", Integer.toString(users));
+            users = json.getInt("users");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return users;
     }
+
 }

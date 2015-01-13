@@ -13,7 +13,8 @@ public class User {
     static String userName;
     public static int userId;
     static boolean isDeliverer;
-
+    public static final int DOESNT_EXIST = 0; //email doesn't exist in database
+    public static final int NOT_SET_YET = -1; //id not yet set
 
     public static void updateUserData(Context context){
         SharedPreferences userData = context.getSharedPreferences("userdata", 0);

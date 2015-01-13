@@ -1,7 +1,12 @@
 package org.grothedev.fooddelivery;
 
+import android.util.Log;
+
 import org.grothedev.fooddelivery.dbtasks.AddUserTask;
+import org.grothedev.fooddelivery.dbtasks.IdOfEmailTask;
 import org.grothedev.fooddelivery.dbtasks.NumUsersTask;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by thomas on 04/01/15.
@@ -12,7 +17,7 @@ public class DatabaseHandler {
 
     public static String getUserEmail(int id){
 
-        return "email@email.com";
+        return "grothe.tr@gmail.com";
     }
 
     public static boolean userIdExists(int id){
@@ -23,22 +28,23 @@ public class DatabaseHandler {
     }
 
 
-    //returns id of that email or -1
-    public static int userEmailExists(String email){
+    public static void userEmailExists(String email){
 
-        int users = numUsers();
-        for (int i = 1; i <= users; i++){
-            if (getUserEmail(i).equals(email)){
-                return i;
-            }
-        }
+        new IdOfEmailTask().execute(email);
 
-        return -1;
+
     }
 
     public static int numUsers(){
-        new NumUsersTask().execute();
-        return 0;
+        int users = -1;
+        try {
+            users = (Integer) new NumUsersTask().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     //returns id

@@ -189,11 +189,6 @@ public class WelcomeActivity extends ActionBarActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (!firstRun()) {
-            User.updatePrefsFile(this);
-
-        }
-
 
     }
 
