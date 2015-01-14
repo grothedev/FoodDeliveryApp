@@ -28,6 +28,8 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
   get_user_email.php GET id (returns email of user id)
   
   num_users.php (returns num users)
+  
+  get_id_of_email.php GET email (returns id of email)
     
   
 <h3><a href = "http://grothetr.no-ip.org/android/food/builds/">APKs</a></h3>
