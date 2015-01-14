@@ -14,32 +14,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by thomas on 11/01/15.
+ * Created by thomas on 13/01/15.
  */
-public class IdOfEmailTask extends AsyncTask {
+public class GetUserNameTask extends AsyncTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_id_of_email = "http://96.42.75.21/android/food/db/get_id_of_email.php";
+    String url_get_user_name = "http://96.42.75.21/android/food/db/get_user_name.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        String email = objects[0].toString();
+
+        int id = Integer.parseInt(objects[0].toString());
+
+
 
         List<NameValuePair> params = new ArrayList<NameValuePair>(1);
-        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("id", Integer.toString(id)));
 
-        JSONObject json = jsonParser.makeHttpRequest(url_id_of_email, "GET", params);
+        JSONObject json = jsonParser.makeHttpRequest(url_get_user_name, "GET", params);
 
-
-        int id;
         try {
-            id = json.getInt("id");
+            User.userName = json.getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
-            id = User.DOESNT_EXIST;
         }
-
-        User.userId = id;
+        Log.d("uname", User.userName); //trying to figure out why name is null in prefs file
 
         return null;
     }

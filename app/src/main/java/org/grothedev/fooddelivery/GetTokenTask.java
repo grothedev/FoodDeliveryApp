@@ -15,14 +15,14 @@ import java.io.IOException;
 /**
  * Created by thomas on 12/12/14.
  */
-public class GetUsernameTask extends AsyncTask {
+public class GetTokenTask extends AsyncTask {
 
     Activity activity;
     String scope;
     String email;
     final int REQUEST_CODE = 90;
 
-    GetUsernameTask(Activity activity, String email, String scope){
+    GetTokenTask(Activity activity, String email, String scope){
         this.activity = activity;
         this.scope = scope;
         this.email = email;
@@ -37,33 +37,9 @@ public class GetUsernameTask extends AsyncTask {
 
                 final String logToken = token;
 
-                activity.runOnUiThread(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity, "Successfully got token", Toast.LENGTH_SHORT);
-
-                        Settings.token = true;
-                        Log.d("token", logToken);
+                Settings.token = true;
 
 
-                    }
-                });
-
-
-
-            } else {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity, "didn't get token", Toast.LENGTH_SHORT);
-
-                        Settings.token = false;
-                        Log.d("token", "no token got");
-
-
-                    }
-                });
             }
         } catch (IOException e) {
             e.printStackTrace();

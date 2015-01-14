@@ -1,11 +1,8 @@
 package org.grothedev.fooddelivery;
 
 import android.accounts.AccountManager;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.grothedev.fooddelivery.dbtasks.GetUserNameTask;
 
 
 public class InitialSetupActivity extends ActionBarActivity {
@@ -34,7 +25,6 @@ public class InitialSetupActivity extends ActionBarActivity {
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     Button chooseEmail;
     Button complete;
-    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +66,22 @@ public class InitialSetupActivity extends ActionBarActivity {
 
                     if (User.userId == User.DOESNT_EXIST){ //user is not in database yet
 
-                        userName = name.getText().toString();
-                        if (userName == null){
+                        User.userName = name.getText().toString();
+                        if (User.userName == null){
                             //TODO: get from g+ profile
-                            userName = "from g+ profile";
+                            User.userName = "from g+ profile";
                         }
 
-                        DatabaseHandler.addUser(userEmail, userName);
+                        Log.d("username", User.userName);
+
+                        DatabaseHandler.addUser(userEmail, User.userName);
+                    } else {
+                        new GetUserNameTask().execute(User.userId); //i don't think it's a good idea to pass around these static user variables
                     }
 
-                    while (User.userId == User.DOESNT_EXIST){} //wait for the user to be added to database.  this probably shouldn't be done on ui thread
+                    while (User.userId == User.DOESNT_EXIST || User.userName == null){} //wait for the user to be added to database and name to be gotten.  this probably shouldn't be done on ui thread
 
-                    edit.putString("name", userName);
+                    edit.putString("name", User.userName);
                     edit.putString("email", userEmail);
                     edit.putBoolean("firstRun", false);
                     edit.putInt("id", User.userId);
@@ -155,7 +149,7 @@ public class InitialSetupActivity extends ActionBarActivity {
             pickUserAccount();
         } else {
 
-            new GetUsernameTask(this, userEmail, SCOPE).execute();
+            new GetTokenTask(this, userEmail, SCOPE).execute();
 
         }
     }

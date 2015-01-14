@@ -9,10 +9,10 @@ import android.widget.EditText;
  * Created by thomas on 04/01/15.
  */
 public class User {
-    static String userEmail;
-    static String userName;
+    public static String userEmail;
+    public static String userName;
     public static int userId;
-    static boolean isDeliverer;
+    public static boolean isDeliverer;
     public static final int DOESNT_EXIST = 0; //email doesn't exist in database
     public static final int NOT_SET_YET = -1; //id not yet set
 

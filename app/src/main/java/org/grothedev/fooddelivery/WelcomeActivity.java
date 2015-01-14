@@ -43,9 +43,10 @@ public class WelcomeActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        if (firstRun()){
+        /*if (firstRun()){
             startActivity(new Intent(this, InitialSetupActivity.class));
-        }
+
+        }*/
 
 
 
@@ -187,9 +188,13 @@ public class WelcomeActivity extends ActionBarActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
+        if (firstRun()){
+            startActivity(new Intent(this, InitialSetupActivity.class));
+
+        }
     }
 
     /**
