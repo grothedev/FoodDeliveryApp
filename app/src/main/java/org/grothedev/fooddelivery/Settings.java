@@ -7,6 +7,6 @@ package org.grothedev.fooddelivery;
 public class Settings {
 
     public static final boolean DEBUG = true;
-    static boolean token = false;
+    public static boolean token = false;
 
 }

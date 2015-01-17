@@ -38,7 +38,7 @@ public class GetUserNameTask extends AsyncTask {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("uname", User.userName); //trying to figure out why name is null in prefs file
+        Log.d("uname", User.userName);
 
         return null;
     }

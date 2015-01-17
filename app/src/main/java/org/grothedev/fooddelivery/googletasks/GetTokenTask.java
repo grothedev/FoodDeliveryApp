@@ -1,4 +1,4 @@
-package org.grothedev.fooddelivery;
+package org.grothedev.fooddelivery.googletasks;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
+
+import org.grothedev.fooddelivery.Settings;
 
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ public class GetTokenTask extends AsyncTask {
     String email;
     final int REQUEST_CODE = 90;
 
-    GetTokenTask(Activity activity, String email, String scope){
+    public GetTokenTask(Activity activity, String email, String scope){
         this.activity = activity;
         this.scope = scope;
         this.email = email;

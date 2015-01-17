@@ -54,32 +54,14 @@
 
 
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/button_choose_email"
-            android:layout_alignParentBottom="false"
-            android:id="@+id/linearLayout2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText_name" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Leave blank to use the name associated with your google account"
-                android:id="@+id/textView5"
-                android:layout_centerVertical="true"
-                android:layout_alignLeft="@+id/button_choose_email"
-                android:layout_alignStart="@+id/button_choose_email"
-                android:textSize="10dip" />
-        </LinearLayout>
+
     </LinearLayout>
 
     <Button

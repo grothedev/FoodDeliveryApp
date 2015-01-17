@@ -3,8 +3,12 @@ package org.grothedev.fooddelivery;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Looper;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +20,12 @@ import android.widget.Toast;
 import com.google.android.gms.common.AccountPicker;
 
 import org.grothedev.fooddelivery.dbtasks.GetUserNameTask;
+import org.grothedev.fooddelivery.dbtasks.UpdateUserNameTask;
+import org.grothedev.fooddelivery.googletasks.GetTokenTask;
+
+import java.util.concurrent.TimeUnit;
+
+import static com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 
 
 public class InitialSetupActivity extends ActionBarActivity {
@@ -25,6 +35,7 @@ public class InitialSetupActivity extends ActionBarActivity {
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
     Button chooseEmail;
     Button complete;
+    EditText userNameInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +50,33 @@ public class InitialSetupActivity extends ActionBarActivity {
             }
         });
 
+
+
+
+        userNameInput = (EditText)findViewById(R.id.editText_name);
+        userNameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                complete.setClickable(true);
+                complete.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+
         complete = (Button)findViewById(R.id.button_init_complete);
+        complete.setClickable(false);
+        complete.setEnabled(false);
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,20 +100,21 @@ public class InitialSetupActivity extends ActionBarActivity {
                     while(User.userId == User.NOT_SET_YET){} //wait for id to be set. this probably shouldn't be done on ui thread
 
 
-
+                    User.userName = name.getText().toString();
                     if (User.userId == User.DOESNT_EXIST){ //user is not in database yet
 
-                        User.userName = name.getText().toString();
-                        if (User.userName == null){
-                            //TODO: get from g+ profile
-                            User.userName = "from g+ profile";
+                        DatabaseHandler.addUser(userEmail, User.userName);
+
+                    } else {
+
+                        Log.d("name", User.userName);
+
+                        if (User.userName.equals("")){
+                            new GetUserNameTask().execute(User.userId); //i don't think it's a good idea to pass around these static user variables
+                        } else {
+                            new UpdateUserNameTask().execute(User.userId, User.userName);
                         }
 
-                        Log.d("username", User.userName);
-
-                        DatabaseHandler.addUser(userEmail, User.userName);
-                    } else {
-                        new GetUserNameTask().execute(User.userId); //i don't think it's a good idea to pass around these static user variables
                     }
 
                     while (User.userId == User.DOESNT_EXIST || User.userName == null){} //wait for the user to be added to database and name to be gotten.  this probably shouldn't be done on ui thread
