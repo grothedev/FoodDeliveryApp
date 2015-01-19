@@ -8,12 +8,13 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
 <h2>Current Status</h2>
 
   Initial setup activity adds a new user to the database after recieving google auth token and asking the user permission to access basic google profile info. 
+  User can become a deliverer. there is some inconsistency with the success of the php that makes the user a deliverer, i will need to fix this
 
 <h3>Security Issues</h3>
 
   Currently the user is added to the database by making an http post request to add_user.php, giving just the name and email. there needs to be a way to verify the request is coming from a valid client. 
   A possible solution: the php script gets an auth token to compare with the one from client. 
-  
+  Also need to use https or ssl instead of http
   
   
 <h3>PHP Calls</h3>
