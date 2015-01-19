@@ -105,10 +105,10 @@ public class NavigationDrawerFragment extends Fragment {
         User.isDeliverer = userData.getBoolean("isDeliverer", false);
 
         if (User.isDeliverer){
-            navDrawerOptions = new String[]{getString(R.string.title_welcome), getString(R.string.title_order), getString(R.string.title_del_cp),
+            navDrawerOptions = new String[]{ getString(R.string.title_order), getString(R.string.title_del_cp),
                     getString(R.string.title_del_requests), getString(R.string.title_del_active)};
         } else {
-            navDrawerOptions = new String[]{getString(R.string.title_welcome), getString(R.string.title_order), getString(R.string.title_del_init)};
+            navDrawerOptions = new String[]{ getString(R.string.title_order), getString(R.string.title_del_init)};
         }
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
@@ -121,7 +121,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public void becomeDeliverer(){
-        String[] navDrawerOptions = new String[]{getString(R.string.title_welcome), getString(R.string.title_order), getString(R.string.title_del_cp),
+        String[] navDrawerOptions = new String[]{ getString(R.string.title_order), getString(R.string.title_del_cp),
                 getString(R.string.title_del_requests), getString(R.string.title_del_active)};
 
         mDrawerListView.setAdapter(new ArrayAdapter<String>(

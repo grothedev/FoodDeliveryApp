@@ -1,6 +1,5 @@
 package org.grothedev.fooddelivery;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,24 +7,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.common.AccountPicker;
 
 
-public class WelcomeActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 
@@ -41,17 +32,7 @@ public class WelcomeActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-
-        /*if (firstRun()){
-            startActivity(new Intent(this, InitialSetupActivity.class));
-
-        }*/
-
-
-
-
-
+        setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -80,10 +61,6 @@ public class WelcomeActivity extends ActionBarActivity
 
         User.updateUserData(this);
 
-
-
-
-
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -97,7 +74,7 @@ public class WelcomeActivity extends ActionBarActivity
             }
         } else {
             switch (position){
-                case 2: //become deliverer
+                case 1: //become deliverer
                     Fragment initDelivererFrag = new InitDeliverer();
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, initDelivererFrag)
@@ -119,30 +96,24 @@ public class WelcomeActivity extends ActionBarActivity
         if (User.isDeliverer){
             switch (number) {
                 case 1:
-                    mTitle = getString(R.string.title_welcome);
-                    break;
-                case 2:
                     mTitle = getString(R.string.title_order);
                     break;
-                case 3:
+                case 2:
                     mTitle = getString(R.string.title_del_cp);
                     break;
-                case 4:
+                case 3:
                     mTitle = getString(R.string.title_del_requests);
                     break;
-                case 5:
+                case 4:
                     mTitle = getString(R.string.title_del_active);
                     break;
             }
         } else {
             switch (number) {
                 case 1:
-                    mTitle = getString(R.string.title_welcome);
-                    break;
-                case 2:
                     mTitle = getString(R.string.title_order);
                     break;
-                case 3:
+                case 2:
                     mTitle = getString(R.string.title_del_init);
 
                     break;
@@ -190,7 +161,6 @@ public class WelcomeActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
-
         if (firstRun()){
             startActivity(new Intent(this, InitialSetupActivity.class));
 
@@ -232,7 +202,7 @@ public class WelcomeActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((WelcomeActivity) activity).onSectionAttached(
+            ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
