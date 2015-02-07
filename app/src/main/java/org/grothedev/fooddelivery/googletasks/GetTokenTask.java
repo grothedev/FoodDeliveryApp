@@ -36,12 +36,7 @@ public class GetTokenTask extends AsyncTask {
         try {
             token = fetchToken();
             if (token != null){
-
-                final String logToken = token;
-
                 Settings.token = true;
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();

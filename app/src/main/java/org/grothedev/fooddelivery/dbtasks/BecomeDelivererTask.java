@@ -46,8 +46,6 @@ public class BecomeDelivererTask extends AsyncTask {
         activity = (Activity)objects[0];
         int timeout = Integer.parseInt(objects[1].toString());
 
-        //Log.d("timeout", Integer.toString(timeout));
-
         List<NameValuePair> params = new ArrayList<NameValuePair>(1);
         params.add(new BasicNameValuePair("id", Integer.toString(User.userId)));
 

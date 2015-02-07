@@ -1,6 +1,7 @@
 package org.grothedev.fooddelivery;
 
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Looper;
@@ -36,6 +37,7 @@ public class InitialSetupActivity extends ActionBarActivity {
     Button chooseEmail;
     Button complete;
     EditText userNameInput;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,12 @@ public class InitialSetupActivity extends ActionBarActivity {
             }
         });
 
+
+
+        pDialog = new ProgressDialog(InitialSetupActivity.this);
+        pDialog.setMessage(".....");
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
 
 
 
@@ -84,6 +92,8 @@ public class InitialSetupActivity extends ActionBarActivity {
 
                 //the user owns the google account
                if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
+
+                   pDialog.show();
 
                     EditText name = (EditText)findViewById(R.id.editText_name);
                     SharedPreferences userData = getSharedPreferences("userdata", 0);
@@ -125,6 +135,7 @@ public class InitialSetupActivity extends ActionBarActivity {
                     edit.putInt("id", User.userId);
                     edit.commit();
 
+                   pDialog.dismiss();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "don't have auth token", Toast.LENGTH_SHORT).show();

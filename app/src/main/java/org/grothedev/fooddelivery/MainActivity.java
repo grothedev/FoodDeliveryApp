@@ -3,6 +3,8 @@ package org.grothedev.fooddelivery;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+
+import org.grothedev.fooddelivery.googletasks.GetTokenTask;
 
 
 public class MainActivity extends ActionBarActivity
@@ -45,8 +49,18 @@ public class MainActivity extends ActionBarActivity
 
 
 
+        if (!firstRun()){
+            authenticate();
+            User.updateUserData(this);
+        }
+
+
+
     }
 
+    private void authenticate(){
+        new GetTokenTask(this, User.userEmail, "oauth2:https://www.googleapis.com/auth/userinfo.profile").execute();
+    }
 
     private boolean firstRun(){
         SharedPreferences userData = getSharedPreferences("userdata", 0);
@@ -66,6 +80,14 @@ public class MainActivity extends ActionBarActivity
 
         if (User.isDeliverer){
             switch (position){
+                case 0: //order
+
+
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    ft.replace(R.id.container, new OrderContainer());
+                    ft.commit();
+
+                    break;
                 default:
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
@@ -74,8 +96,12 @@ public class MainActivity extends ActionBarActivity
             }
         } else {
             switch (position){
+                case 0: //order
+                    Fragment orderFrag = new OrderFragment();
+                    fragmentManager.beginTransaction().replace(R.id.container, orderFrag).commit();
+                    break;
                 case 1: //become deliverer
-                    Fragment initDelivererFrag = new InitDeliverer();
+                    Fragment initDelivererFrag = new InitDelivererFragment();
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, initDelivererFrag)
                             .commit();

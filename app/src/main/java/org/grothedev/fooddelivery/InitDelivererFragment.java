@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by thomas on 09/12/14.
  */
-public class InitDeliverer extends Fragment implements View.OnClickListener{
+public class InitDelivererFragment extends Fragment implements View.OnClickListener{
 
     final int BECOME_DELIVERER_CODE = 99;
 

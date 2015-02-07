@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import org.grothedev.fooddelivery.dbtasks.BecomeDelivererTask;
+import org.grothedev.fooddelivery.dbtasks.GetBusinessesTask;
 import org.grothedev.fooddelivery.dbtasks.TaskIds;
 
 /**
@@ -24,7 +25,7 @@ public class LoadingScreenTaskActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pDialog = new ProgressDialog(LoadingScreenTaskActivity.this);
-        pDialog.setMessage("making deliverer");
+        pDialog.setMessage(".....");
         pDialog.setIndeterminate(true);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -47,7 +48,10 @@ public class LoadingScreenTaskActivity extends Activity {
             case TaskIds.BECOME_DELIVERER:
                 new BecomeDelivererTask().execute(this, timeout);
                 break;
-            //TODO: initial add user
+            //TODO: initial add user maybe?
+            case TaskIds.GET_BUSINESSES:
+                new GetBusinessesTask().execute();
+                break;
         }
 
 

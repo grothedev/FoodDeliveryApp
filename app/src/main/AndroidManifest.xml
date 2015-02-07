@@ -25,15 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ViewRestaurantsActivity"
-            android:label="@string/title_activity_view_restaurants" >
-        </activity>
-        <activity
-            android:name=".BecomeDeliverer"
-            android:label="BecomeDeliverer"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+
         <activity
             android:name=".LoadingScreenTaskActivity"
             android:label="LoadingScreenTaskActivity"
