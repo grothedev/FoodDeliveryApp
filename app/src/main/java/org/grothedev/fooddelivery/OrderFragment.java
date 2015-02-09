@@ -31,7 +31,7 @@ public class OrderFragment extends Fragment{
         searchView.setIconified(false);
 
         //listener for change in search query which will change the stuff in the listview
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) { //do nothing
                 return false;
@@ -42,7 +42,7 @@ public class OrderFragment extends Fragment{
 
                 return false;
             }
-        });
+        });*/
         return view;
     }
 

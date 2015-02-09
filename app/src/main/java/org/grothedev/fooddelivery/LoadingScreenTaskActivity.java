@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import org.grothedev.fooddelivery.dbtasks.BecomeDelivererTask;
 import org.grothedev.fooddelivery.dbtasks.GetBusinessesTask;
+import org.grothedev.fooddelivery.dbtasks.GetUserLocationTask;
 import org.grothedev.fooddelivery.dbtasks.TaskIds;
+import org.grothedev.fooddelivery.dbtasks.UpdateUserLocationTask;
 
 /**
  * Created by thomas on 18/01/15.
@@ -50,7 +52,13 @@ public class LoadingScreenTaskActivity extends Activity {
                 break;
             //TODO: initial add user maybe?
             case TaskIds.GET_BUSINESSES:
-                new GetBusinessesTask().execute();
+                new GetBusinessesTask().execute(this, timeout);
+                break;
+            case TaskIds.GET_USER_LOCATION:
+                new GetUserLocationTask().execute(this, timeout);
+                break;
+            case TaskIds.UPDATE_USER_LOCATION:
+                new UpdateUserLocationTask().execute(this, timeout);
                 break;
         }
 

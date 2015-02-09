@@ -17,26 +17,15 @@ import java.util.List;
 /**
  * Created by thomas on 19/01/15.
  */
-public class BecomeDelivererTask extends AsyncTask {
+public class BecomeDelivererTask extends DBTask {
 
     JSONParser jsonParser = new JSONParser();
     String url_make_deliverer = "http://96.42.75.21/android/food/db/make_deliverer.php";
 
-    Activity activity;
-    boolean success;
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-
-        if (activity != null){
-            if (success){
-                activity.setResult(Activity.RESULT_OK);
-            }
-
-            activity.finish();
-        }
-
     }
 
     @Override

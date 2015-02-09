@@ -7,6 +7,6 @@ package org.grothedev.fooddelivery;
 public class Settings {
 
     public static final boolean DEBUG = true;
-    public static boolean token = false;
+    public static final int MAX_BUSINESSES = 1000;
 
 }

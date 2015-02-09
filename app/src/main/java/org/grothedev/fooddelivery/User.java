@@ -3,6 +3,7 @@ package org.grothedev.fooddelivery;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.widget.EditText;
 
 /**
@@ -15,6 +16,11 @@ public class User {
     public static boolean isDeliverer;
     public static final int DOESNT_EXIST = 0; //email doesn't exist in database
     public static final int NOT_SET_YET = -1; //id not yet set
+
+    public static String token;
+    public static boolean hasToken = false;
+
+    public static Location userLocation;
 
     public static void updateUserData(Context context){
         SharedPreferences userData = context.getSharedPreferences("userdata", 0);

@@ -11,6 +11,7 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 
 import org.grothedev.fooddelivery.Settings;
+import org.grothedev.fooddelivery.User;
 
 import java.io.IOException;
 
@@ -36,7 +37,8 @@ public class GetTokenTask extends AsyncTask {
         try {
             token = fetchToken();
             if (token != null){
-                Settings.token = true;
+                User.hasToken = true;
+                User.token = token.toString();
             }
         } catch (IOException e) {
             e.printStackTrace();

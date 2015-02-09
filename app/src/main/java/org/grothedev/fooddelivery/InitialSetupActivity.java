@@ -91,7 +91,7 @@ public class InitialSetupActivity extends ActionBarActivity {
 
 
                 //the user owns the google account
-               if (Settings.token){ //might it be possible for someone to change the value of Settings.token ?
+               if (User.hasToken){ //might it be possible for someone to change the value of Settings.token ?
 
                    pDialog.show();
 
