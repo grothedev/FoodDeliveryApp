@@ -1,7 +1,6 @@
 package org.grothedev.fooddelivery.dbtasks;
 
-import android.os.AsyncTask;
-import android.util.Log;
+import android.app.Activity;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -14,35 +13,110 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by thomas on 11/01/15.
+ * Created by thomas on 09/02/15.
  */
-public class AddUserTask extends AsyncTask{
+public class AddUserTask extends DBTask {
+
     JSONParser jsonParser = new JSONParser();
+    String url_id_of_email = "http://96.42.75.21/android/food/db/get_id_of_email.php";
     String url_add_user = "http://96.42.75.21/android/food/db/add_user.php";
+    String url_get_user_name = "http://96.42.75.21/android/food/db/get_user_name.php";
+    String url_update_user_name = "http://96.42.75.21/android/food/db/update_user_name.php";
+
+    @Override
+    protected void onPostExecute(Object o) {
+        super.onPostExecute(o);
+    }
 
     @Override
     protected Object doInBackground(Object[] objects) {
-        String email = objects[0].toString();
-        String name = objects[1].toString();
 
+        activity = (Activity) objects[0];
 
+        getIdFromEmail();
 
+        while (User.userId == User.NOT_SET_YET){}//wait for id to be set
+
+        if (User.userId == User.DOESNT_EXIST){
+            addUserToDB();
+        } else {
+            if (User.userName.equals("")){
+                getUserName(); //get this user's previous username
+            } else {
+                updateUserName();
+            }
+        }
+
+        success = true;
+
+        return null;
+    }
+
+    private void getUserName(){
+        List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+        params.add(new BasicNameValuePair("id", Integer.toString(User.userId)));
+
+        JSONObject json = jsonParser.makeHttpRequest(url_get_user_name, "GET", params);
+
+        try {
+            User.userName = json.getString("name");
+        } catch (JSONException e) {
+            success = false;
+            e.printStackTrace();
+        }
+    }
+
+    private void updateUserName(){
         List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-        params.add(new BasicNameValuePair("name", name));
-        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("id", Integer.toString(User.userId)));
+        params.add(new BasicNameValuePair("name", User.userName));
 
-        //TODO: setup token auth thing on server
+        JSONObject json = jsonParser.makeHttpRequest(url_update_user_name, "POST", params);
+
+        try {
+            if (json.getInt("success") == 0){
+                success = false;
+            }
+        } catch (JSONException e) {
+            success = false;
+            e.printStackTrace();
+        }
+    }
+
+    private void addUserToDB(){
+        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair("name", User.userName));
+        params.add(new BasicNameValuePair("email", User.userEmail));
+
+
         JSONObject json = jsonParser.makeHttpRequest(url_add_user, "POST", params);
 
 
         try {
             User.userId = json.getInt("id");
         } catch (JSONException e) {
+            success = false;
             e.printStackTrace();
         }
+    }
 
-        Log.d("add user response", json.toString());
-        Log.d("local id", Integer.toString(User.userId));
-        return null;
+    //if email already exists, use that id, else make a new user
+    private void getIdFromEmail(){
+        List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+        params.add(new BasicNameValuePair("email", User.userEmail));
+
+        JSONObject json = jsonParser.makeHttpRequest(url_id_of_email, "GET", params);
+
+        int id;
+        try {
+            id = json.getInt("id");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            id = User.DOESNT_EXIST;
+
+        }
+
+        User.userId = id;
     }
 }

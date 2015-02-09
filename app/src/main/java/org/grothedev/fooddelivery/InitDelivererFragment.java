@@ -86,6 +86,7 @@ public class InitDelivererFragment extends Fragment implements View.OnClickListe
 
         Intent i = new Intent(getActivity().getApplicationContext(), LoadingScreenTaskActivity.class);
         i.putExtra("task_id", TaskIds.BECOME_DELIVERER);
+        i.putExtra("message", "Becoming deliverer...");
 
         startActivityForResult(i, BECOME_DELIVERER_CODE);
 

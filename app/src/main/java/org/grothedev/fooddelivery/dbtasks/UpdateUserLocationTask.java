@@ -1,5 +1,7 @@
 package org.grothedev.fooddelivery.dbtasks;
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Looper;
 import android.util.Log;
 
@@ -18,12 +20,13 @@ import java.util.List;
  */
 public class UpdateUserLocationTask extends DBTask {
 
+
     JSONParser jsonParser = new JSONParser();
     String url_update_user_location = "http://96.42.75.21/android/food/db/update_user_location.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {
-
+        activity = (Activity) objects[0];
         int timeout = (Integer) objects[1];
 
         while(User.userLocation == null){} //wait

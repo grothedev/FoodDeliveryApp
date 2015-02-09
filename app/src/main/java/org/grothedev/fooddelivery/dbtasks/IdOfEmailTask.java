@@ -34,9 +34,11 @@ public class IdOfEmailTask extends AsyncTask {
         int id;
         try {
             id = json.getInt("id");
+
         } catch (JSONException e) {
             e.printStackTrace();
             id = User.DOESNT_EXIST;
+
         }
 
         User.userId = id;

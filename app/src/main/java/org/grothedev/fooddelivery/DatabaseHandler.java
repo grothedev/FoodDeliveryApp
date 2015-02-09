@@ -47,7 +47,6 @@ public class DatabaseHandler {
         return users;
     }
 
-    //returns id
     public static void addUser(String email, String name){
         new AddUserTask().execute(email, name);
     }

@@ -14,7 +14,7 @@ public abstract class DBTask extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object o) {
-        super.onPostExecute(o);
+
 
         if (activity != null) {
             if (success) {
@@ -25,6 +25,8 @@ public abstract class DBTask extends AsyncTask {
         } else {
             Log.d("activity null", "");
         }
+
+        super.onPostExecute(o);
     }
 
 }

@@ -35,7 +35,7 @@ public class BusinessListFragment extends ListFragment {
     //this fragment is the list of businesses
 
     String[] businessNameList;
-    final int GET_BUSINESSES = 3456;
+    final int REQUEST_CODE_GET_BUSINESSES = 3456;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -48,16 +48,25 @@ public class BusinessListFragment extends ListFragment {
             updateLocationOnServer();
         }
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         if (!SessionVals.businessesObtained){
             getBusinesses();
         }
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GET_BUSINESSES){
+        if (requestCode == REQUEST_CODE_GET_BUSINESSES){
             if (resultCode == Activity.RESULT_OK){
                 setupListView();
             } else {
@@ -69,7 +78,7 @@ public class BusinessListFragment extends ListFragment {
 
     private void setupListView(){
 
-        if (Businesses.businessList == null){
+        if (Businesses.businessList.size() == 0){
 
             businessNameList = new String[1];
             businessNameList[0] = "Was unable to retrieve businesses";
@@ -78,7 +87,6 @@ public class BusinessListFragment extends ListFragment {
 
             setListAdapter(adapter);
         } else {
-
             businessNameList = new String[Businesses.businessList.size()];
             for (int i = 0; i < Businesses.businessList.size(); i++){
                 businessNameList[i] = Businesses.businessList.get(i).name;
@@ -96,6 +104,7 @@ public class BusinessListFragment extends ListFragment {
 
         Intent i = new Intent(getActivity().getApplicationContext(), LoadingScreenTaskActivity.class);
         i.putExtra("task_id", TaskIds.UPDATE_USER_LOCATION);
+        i.putExtra("message", "Updating your location...");
 
         startActivity(i);
 
@@ -139,11 +148,6 @@ public class BusinessListFragment extends ListFragment {
 
         locManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locListener, null);
 
-      /*  Intent i = new Intent(getActivity().getApplicationContext(), LoadingScreenTaskActivity.class);
-        i.putExtra("task_id", TaskIds.GET_USER_LOCATION);
-
-        startActivity(i);
-                */
     }
 
     private void getBusinesses(){
@@ -153,9 +157,9 @@ public class BusinessListFragment extends ListFragment {
         } else {
             Intent i = new Intent(getActivity().getApplicationContext(), LoadingScreenTaskActivity.class);
             i.putExtra("task_id", TaskIds.GET_BUSINESSES);
+            i.putExtra("message", "Finding businesses in your area...");
 
-
-            startActivityForResult(i, GET_BUSINESSES);
+            startActivityForResult(i, REQUEST_CODE_GET_BUSINESSES);
         }
 
     }

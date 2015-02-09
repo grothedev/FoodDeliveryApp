@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import org.grothedev.fooddelivery.dbtasks.AddUserTask;
 import org.grothedev.fooddelivery.dbtasks.BecomeDelivererTask;
 import org.grothedev.fooddelivery.dbtasks.GetBusinessesTask;
-import org.grothedev.fooddelivery.dbtasks.GetUserLocationTask;
 import org.grothedev.fooddelivery.dbtasks.TaskIds;
 import org.grothedev.fooddelivery.dbtasks.UpdateUserLocationTask;
 
@@ -27,7 +27,7 @@ public class LoadingScreenTaskActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pDialog = new ProgressDialog(LoadingScreenTaskActivity.this);
-        pDialog.setMessage(".....");
+        pDialog.setMessage(getIntent().getExtras().getString("message"));
         pDialog.setIndeterminate(true);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -41,7 +41,7 @@ public class LoadingScreenTaskActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        pDialog.dismiss();
+
     }
 
     private void startTask(int taskId) {
@@ -50,12 +50,13 @@ public class LoadingScreenTaskActivity extends Activity {
             case TaskIds.BECOME_DELIVERER:
                 new BecomeDelivererTask().execute(this, timeout);
                 break;
-            //TODO: initial add user maybe?
-            case TaskIds.GET_BUSINESSES:
-                new GetBusinessesTask().execute(this, timeout);
+            case TaskIds.ADD_USER:
+                new AddUserTask().execute(this, timeout);
                 break;
-            case TaskIds.GET_USER_LOCATION:
-                new GetUserLocationTask().execute(this, timeout);
+            case TaskIds.GET_BUSINESSES:
+
+                new GetBusinessesTask().execute(this, timeout);
+
                 break;
             case TaskIds.UPDATE_USER_LOCATION:
                 new UpdateUserLocationTask().execute(this, timeout);
