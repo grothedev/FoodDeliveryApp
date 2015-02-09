@@ -33,6 +33,8 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
   get_id_of_email.php GET email (returns id of email)
     
   update_user_name.php POST id,name 
+  
+  update_user_location.php POST id, latitude, longitude, token 
 <h3><a href = "http://grothetr.no-ip.org/android/food/builds/">APKs</a></h3>
   
 
