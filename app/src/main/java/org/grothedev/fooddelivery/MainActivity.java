@@ -82,12 +82,11 @@ public class MainActivity extends ActionBarActivity
             switch (position){
                 case 0: //order
 
-
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     ft.replace(R.id.container, new OrderContainer());
                     ft.commit();
-
                     break;
+
                 default:
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
@@ -97,8 +96,11 @@ public class MainActivity extends ActionBarActivity
         } else {
             switch (position){
                 case 0: //order
-                    Fragment orderFrag = new OrderFragment();
-                    fragmentManager.beginTransaction().replace(R.id.container, orderFrag).commit();
+
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    ft.replace(R.id.container, new OrderContainer());
+                    ft.commit();
+
                     break;
                 case 1: //become deliverer
                     Fragment initDelivererFrag = new InitDelivererFragment();

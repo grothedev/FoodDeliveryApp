@@ -32,7 +32,6 @@ public class GetBusinessesTask extends DBTask {
         //get data from db
         Businesses.businessList.add(new Business(23, "chipotle", 20, -10)); //placeholder data
 
-        for (int i = 0; i<timeout; i++){}
 
         //TODO
 

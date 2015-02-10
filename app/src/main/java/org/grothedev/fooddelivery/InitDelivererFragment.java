@@ -1,11 +1,13 @@
 package org.grothedev.fooddelivery;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +61,12 @@ public class InitDelivererFragment extends Fragment implements View.OnClickListe
                         R.id.navigation_drawer,
                         (DrawerLayout) getActivity().findViewById(R.id.drawer_layout));
 
+                //set view to deliverer control panel
+                android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.container, new DelivererCPFragment());
+                ft.commit();
+
 
                 //grey button and toast
                 Button become = (Button) view.findViewById(R.id.button_del_init);
@@ -71,6 +79,7 @@ public class InitDelivererFragment extends Fragment implements View.OnClickListe
                 SharedPreferences.Editor edit = userData.edit();
                 edit.putBoolean("isDeliverer", true);
                 edit.commit();
+
 
                 Toast.makeText(getActivity().getApplicationContext(), "You are now a deliverer", Toast.LENGTH_SHORT).show();
             } else {
