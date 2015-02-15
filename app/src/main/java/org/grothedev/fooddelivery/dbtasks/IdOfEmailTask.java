@@ -6,6 +6,7 @@ import android.util.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.Settings;
 import org.grothedev.fooddelivery.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.List;
 public class IdOfEmailTask extends AsyncTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_id_of_email = "http://96.42.75.21/android/food/db/get_id_of_email.php";
+    String url_id_of_email = Settings.url + "get_id_of_email.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {

@@ -8,17 +8,20 @@ import android.location.Location;
 public class Business {
 
     int id;
-    String name;
-    String address;
-    String phone; //may need to change data type
-    String website;
-    double lat, lon;
+    public String name;
+    public String address;
+    public String phone; //may need to change data type
+    public String website;
+    public double lat, lon;
 
-    public Business(int id, String name, double lat, double lon){
+    public Business(int id, String name, double lat, double lon, String address, String website, String phone){
         this.id = id;
         this.name = name;
         this.lat = lat;
         this.lon = lon;
+        this.address = address;
+        this.website = website;
+        this.phone = phone;
     }
 
 

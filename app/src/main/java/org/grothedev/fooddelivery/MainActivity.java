@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,6 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import org.grothedev.fooddelivery.fragments.BusinessListFragment;
+import org.grothedev.fooddelivery.fragments.DelivererCPFragment;
+import org.grothedev.fooddelivery.fragments.InitDelivererFragment;
+import org.grothedev.fooddelivery.fragments.NavigationDrawerFragment;
+import org.grothedev.fooddelivery.fragments.NewBusinessListFragment;
 import org.grothedev.fooddelivery.googletasks.GetTokenTask;
 
 
@@ -77,14 +81,20 @@ public class MainActivity extends ActionBarActivity
 
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-
+        FragmentTransaction ft = fragmentManager.beginTransaction();
         if (User.isDeliverer){
             switch (position){
                 case 0: //order
 
-                    FragmentTransaction ft = fragmentManager.beginTransaction();
-                    ft.replace(R.id.container, new OrderContainer());
+                    ft.replace(R.id.container, new NewBusinessListFragment());
                     ft.commit();
+
+                    break;
+                case 1: //delivery CP
+
+                    ft.replace(R.id.container, new DelivererCPFragment());
+                    ft.commit();
+
                     break;
 
                 default:
@@ -97,8 +107,8 @@ public class MainActivity extends ActionBarActivity
             switch (position){
                 case 0: //order
 
-                    FragmentTransaction ft = fragmentManager.beginTransaction();
-                    ft.replace(R.id.container, new OrderContainer());
+
+                    ft.replace(R.id.container, new BusinessListFragment());
                     ft.commit();
 
                     break;
@@ -116,6 +126,8 @@ public class MainActivity extends ActionBarActivity
 
             }
         }
+
+
 
 
     }
@@ -148,6 +160,7 @@ public class MainActivity extends ActionBarActivity
             }
         }
 
+
     }
 
     public void restoreActionBar() {
@@ -164,7 +177,7 @@ public class MainActivity extends ActionBarActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.welcome, menu);
+
             restoreActionBar();
             return true;
         }

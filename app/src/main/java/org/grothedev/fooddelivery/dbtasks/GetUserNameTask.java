@@ -6,6 +6,8 @@ import android.util.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.R;
+import org.grothedev.fooddelivery.Settings;
 import org.grothedev.fooddelivery.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +21,7 @@ import java.util.List;
 public class GetUserNameTask extends AsyncTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_get_user_name = "http://96.42.75.21/android/food/db/get_user_name.php";
+    String url_get_user_name = Settings.url + "get_user_name.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {

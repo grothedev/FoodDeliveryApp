@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.Settings;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ public class NumUsersTask extends AsyncTask {
 
 
     JSONParser jsonParser = new JSONParser();
-    String url_num_users = "http://96.42.75.21/android/food/db/num_users.php";
+    String url_num_users = Settings.url + "num_users.php";
     int users;
 
     @Override

@@ -16,6 +16,11 @@ public class User {
     public static boolean isDeliverer;
     public static final int DOESNT_EXIST = 0; //email doesn't exist in database
     public static final int NOT_SET_YET = -1; //id not yet set
+    public static Region region;
+
+    public enum Region{
+        r1A, r1B, r1C, r1D, r2A, r2B, r2C, r2D, r3A, r3B, r3C, r3D, r4A, r4B, r4C, r4D
+    }
 
     public static String token;
     public static boolean hasToken = false;

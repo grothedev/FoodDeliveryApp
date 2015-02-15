@@ -5,6 +5,7 @@ import android.app.Activity;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.Settings;
 import org.grothedev.fooddelivery.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,10 +19,10 @@ import java.util.List;
 public class AddUserTask extends DBTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_id_of_email = "http://96.42.75.21/android/food/db/get_id_of_email.php";
-    String url_add_user = "http://96.42.75.21/android/food/db/add_user.php";
-    String url_get_user_name = "http://96.42.75.21/android/food/db/get_user_name.php";
-    String url_update_user_name = "http://96.42.75.21/android/food/db/update_user_name.php";
+    String url_id_of_email = Settings.url + "get_id_of_email.php";
+    String url_add_user = Settings.url + "add_user.php";
+    String url_get_user_name = Settings.url + "get_user_name.php";
+    String url_update_user_name = Settings.url + "update_user_name.php";
 
     @Override
     protected void onPostExecute(Object o) {

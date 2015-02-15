@@ -22,7 +22,7 @@ public class UpdateUserLocationTask extends DBTask {
 
 
     JSONParser jsonParser = new JSONParser();
-    String url_update_user_location = "http://96.42.75.21/android/food/db/update_user_location.php";
+    String url_update_user_location = Settings.url + "update_user_location.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {

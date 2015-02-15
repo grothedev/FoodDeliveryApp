@@ -7,6 +7,7 @@ import android.util.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.Settings;
 import org.grothedev.fooddelivery.User;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +21,7 @@ import java.util.List;
 public class BecomeDelivererTask extends DBTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_make_deliverer = "http://96.42.75.21/android/food/db/make_deliverer.php";
+    String url_make_deliverer = Settings.url + "make_deliverer.php";
 
 
     @Override

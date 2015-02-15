@@ -8,4 +8,10 @@ public class SessionVals {
 
     public static boolean userLocationObtained = false;
     public static boolean businessesObtained = false;
+    public static int radius = 20; //this is the default radius (always in km)
+    public static double prevRadius = -1;
+    public static enum DistanceUnit {
+        KM, MI
+    }
+    public static DistanceUnit radiusUnit = DistanceUnit.KM; //this just tells what unit is being inputed, not the unit of the radius variable
 }

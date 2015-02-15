@@ -44,6 +44,12 @@ public class LoadingScreenTaskActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pDialog.dismiss();
+    }
+
     private void startTask(int taskId) {
 
         switch (taskId){

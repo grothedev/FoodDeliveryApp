@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.grothedev.fooddelivery.JSONParser;
+import org.grothedev.fooddelivery.Settings;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class UpdateUserNameTask extends AsyncTask {
 
     JSONParser jsonParser = new JSONParser();
-    String url_update_user_name = "http://96.42.75.21/android/food/db/update_user_name.php";
+    String url_update_user_name = Settings.url + "update_user_name.php";
 
     @Override
     protected Object doInBackground(Object[] objects) {

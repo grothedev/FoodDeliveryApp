@@ -1,29 +1,22 @@
-package org.grothedev.fooddelivery;
+package org.grothedev.fooddelivery.fragments;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import org.grothedev.fooddelivery.LoadingScreenTaskActivity;
+import org.grothedev.fooddelivery.MainActivity;
+import org.grothedev.fooddelivery.R;
 import org.grothedev.fooddelivery.dbtasks.TaskIds;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by thomas on 09/12/14.

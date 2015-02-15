@@ -15,4 +15,10 @@
     <string name="title_welcome">Welcome</string>
     <string name="title_activity_initial_setup">Initial Setup</string>
     <string name="hello_world">Hello world!</string>
+    <string name="url">http://96.42.75.21/android/food/db/</string>
+
+    <string-array name="units">
+        <item>km</item>
+        <item>mi</item>
+    </string-array>
 </resources>
