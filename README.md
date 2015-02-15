@@ -7,8 +7,7 @@ see <a href = "http://grothetr.no-ip.org/android/food/food_delivery_app.pdf">thi
 
 <h2>Current Status</h2>
 
-  Initial setup activity adds a new user to the database after recieving google auth token and asking the user permission to access basic google profile info. 
-  User can become a deliverer.
+  working on the business list screen
 
 <h3>Security Issues</h3>
 
